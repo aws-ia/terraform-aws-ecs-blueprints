@@ -61,7 +61,7 @@ def get_prompt_template(retrieved_passages: List[str]) -> str:
     return f"""
     You are an AI assistant answering questions about AWS re:Invent 2024 session information and general queries.
     Your task is to analyze the user's question, categorize it, and provide an appropriate response.
-    Every session information includes the following fields:    
+    Every session information includes the following fields:
     - Title
     - Session Code
     - Description
@@ -83,12 +83,12 @@ def get_prompt_template(retrieved_passages: List[str]) -> str:
     2. REINVENT_INFORMATION
         - This question type is for questions requesting information about specific sessions
         - This question type is for questions requesting information about sessions held at certain venue and times
-        
+
     3. REINVENT_RECOMMENDATION
         - This question type is for session recommendation questions for specific topics or interests
 
-    Second, analyze the user's question and provide a response based on the question type. 
-    
+    Second, analyze the user's question and provide a response based on the question type.
+
     1. GENERAL
         - Ignore the content in the retrieved passages.
         - Provide a direct answer to the question based on your general knowledge.
@@ -117,12 +117,12 @@ def get_prompt_template(retrieved_passages: List[str]) -> str:
 
     IMPORTANT:
     - Always base your answers on the provided data and refrain from offering uncertain information.
-    - Your final response should only contain the actual answer to the user's question. 
-    - Do not include any explanation of your thought process, categorization, or analysis in the final response. 
+    - Your final response should only contain the actual answer to the user's question.
+    - Do not include any explanation of your thought process, categorization, or analysis in the final response.
     - If retrieved passages are empty and question type is not GENERAL, respond with "Sorry. I couldn't find any related information."
     - Do not modify fields data in the retrieved passages.
     - If all conditions are not met, recommend similar sessions and be sure to explain the reason.
-    
+
     CRITICAL RESPONSE FORMAT:
     - You MUST format your entire response EXACTLY as follows, with no exceptions:
 
@@ -147,7 +147,7 @@ def get_prompt_template(retrieved_passages: List[str]) -> str:
     [/QUESTION_TYPE]
     [RESPONSE]
     Based on your question, I recommend the following session:
-    
+
     1. Responsible generative AI tabletop: Governance and oversight [REPEAT]
         - Session Code: GHJ208-R1
         - Session Type: Gamified learning
@@ -195,14 +195,14 @@ def main():
         if not knowledge_base_id:
             st.info("Something is wrong with parameter store")
             st.stop()
-        
+
         agent_client = boto3.client('bedrock-agent-runtime')
         bedrock_runtime_client = boto3.client('bedrock-runtime')
 
         try:
             # Retrieve relevant passages from the knowledge base
             retrieved_results = retrieve_from_knowledge_base(agent_client, knowledge_base_id, prompt)
-            
+
             # Extract and format the retrieved passages
             retrieved_passages = [result['content']['text'] for result in retrieved_results]
             formatted_passages = "\n\n".join(f"Passage {i+1}:\n{passage}" for i, passage in enumerate(retrieved_passages))
@@ -213,7 +213,7 @@ def main():
             response_started = False
 
             message_placeholder = st.chat_message("assistant").empty()
-    
+
             # Generate the final response using the invoke_model API
             system_prompt = get_prompt_template(formatted_passages)
 
@@ -230,7 +230,7 @@ def main():
                 elif response_started:
                     # If we're past the [RESPONSE] tag, continue accumulating the response content
                     response_content += chunk
-                
+
                 # Display the response content if we've started collecting it
                 if response_started:
                     # Remove the [/RESPONSE] tag if present and display the content
@@ -240,14 +240,14 @@ def main():
             import re
             question_type_match = re.search(r'\[QUESTION_TYPE\](.*?)\[/QUESTION_TYPE\]', full_response, re.DOTALL)
             response_match = re.search(r'\[RESPONSE\](.*?)\[/RESPONSE\]', full_response, re.DOTALL)
-            
+
             question_type = question_type_match.group(1).strip() if question_type_match else "UNKNOWN"
             final_response = response_match.group(1).strip() if response_match else "I apologize. There was an issue generating an appropriate response."
 
             message_placeholder.markdown(final_response)
-            
+
             st.session_state.messages.append({"role": "assistant", "content": final_response})
-                
+
             # Display citations only for non-general questions
             if question_type not in ["GENERAL", "UNKNOWN"]:
                 with st.expander("Data Sources"):
@@ -264,7 +264,7 @@ def main():
                 st.warning("Session has expired. Starting a new session. Please enter your question again.")
             else:
                 st.error("An error occurred while processing the response. Please check the logs for details.")
-            
+
             msg = "I encountered an issue while processing the response. Could you please rephrase your prompt or try a different question?"
             st.session_state.messages.append({"role": "assistant", "content": msg})
             st.chat_message("assistant").write(msg)

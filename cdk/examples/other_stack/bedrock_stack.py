@@ -46,7 +46,7 @@ class BedrockStack(Stack):
         self.knowledge_base_data_source = bedrock.S3DataSource(self, 'KnowledgeBaseDataSource',
             bucket=self.bucket,
             knowledge_base=self.knowledge_base,
-            data_source_name='ReinventSessionInformationText', 
+            data_source_name='ReinventSessionInformationText',
             chunking_strategy= bedrock.ChunkingStrategy.hierarchical(
                 overlap_tokens=60,
                 max_parent_token_size=1500,

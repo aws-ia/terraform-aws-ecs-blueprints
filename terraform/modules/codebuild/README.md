@@ -39,12 +39,12 @@ No modules.
 | <a name="input_create_iam_role"></a> [create\_iam\_role](#input\_create\_iam\_role) | Set this variable to true if you want to create a role for AWS DevOps Tools | `bool` | `false` | no |
 | <a name="input_description"></a> [description](#input\_description) | Short description of the project | `string` | `null` | no |
 | <a name="input_ecr_repository"></a> [ecr\_repository](#input\_ecr\_repository) | The ECR repositories to which grant IAM access | `string` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | CodeBuild environment configuration details. At least one attribute is required since `environment` is a required by CodeBuild | `any` | <pre>{<br>  "image": "aws/codebuild/standard:4.0"<br>}</pre> | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | CodeBuild environment configuration details. At least one attribute is required since `environment` is a required by CodeBuild | `any` | <pre>{<br/>  "image": "aws/codebuild/standard:4.0"<br/>}</pre> | no |
 | <a name="input_iam_role_name"></a> [iam\_role\_name](#input\_iam\_role\_name) | The name for the Role | `string` | n/a | yes |
 | <a name="input_iam_role_use_name_prefix"></a> [iam\_role\_use\_name\_prefix](#input\_iam\_role\_use\_name\_prefix) | Determines whether the IAM role name (`iam_role_name`) is used as a prefix | `bool` | `true` | no |
 | <a name="input_logs_config"></a> [logs\_config](#input\_logs\_config) | CodeBuild logs configuration details | `any` | `{}` | no |
 | <a name="input_name"></a> [name](#input\_name) | CodeBuild Project name | `string` | n/a | yes |
-| <a name="input_s3_bucket"></a> [s3\_bucket](#input\_s3\_bucket) | S3 bucket used for the artifact store | <pre>object({<br>    s3_bucket_id  = string<br>    s3_bucket_arn = string<br>  })</pre> | n/a | yes |
+| <a name="input_s3_bucket"></a> [s3\_bucket](#input\_s3\_bucket) | S3 bucket used for the artifact store | <pre>object({<br/>    s3_bucket_id  = string<br/>    s3_bucket_arn = string<br/>  })</pre> | n/a | yes |
 | <a name="input_service_role"></a> [service\_role](#input\_service\_role) | Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources | `map(string)` | `{}` | no |
 
