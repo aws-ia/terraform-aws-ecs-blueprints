@@ -1,7 +1,7 @@
 # Core Infrastructure
 This folder contains the Terraform code to deploy the core infratructure for an ECS EC2 based workload. The AWS resources created by the script are:
 * Networking
-  * VPC
+  * VPC in dual-stack mode: your resources can communicate over IPv4, or IPv6, or both. IPv4 and IPv6 communication are independent of each other.
     * 3 public subnets, 1 per AZ. If a region has less than 3 AZs it will create same number of public subnets as AZs.
     * 3 private subnets, 1 per AZ. If a region has less than 3 AZs it will create same number of private subnets as AZs.
     * 1 NAT Gateway

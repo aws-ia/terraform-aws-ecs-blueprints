@@ -1,6 +1,11 @@
 # ECS load-balanced service
 
-This solution blueprint creates a web-facing load balanced ECS service. There are two steps to deploying this service:
+This solution blueprint creates a web-facing load balanced ECS service.
+The Load Balancer is dualstack mode: Clients can connect to the load balancer using both IPv4 addresses (for example, 192.0.2.1) and IPv6 addresses (for example, 2001:db8:85a3::8a2e:0370:7334).
+The ECS Task is registered in two different Target groups(ipv4 and ipv6).
+Due current limitations, ECS Tasks are not register in ipv6 target type.  
+
+There are two steps to deploying this service:
 
 * Deploy the [core-infra](../core-infra/README.md). Note if you have already deployed the `core-infra` then you can reuse it.
 * Deploy this blueprint using the below commands
